@@ -7,9 +7,9 @@ import core.basesyntax.model.FruitTransaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SupplyOperationTest {
+public class ReturnOperationTest {
 
-    private final OperationHandler supplyHandler = new SupplyOperation();
+    private final OperationHandler returnOperation = new ReturnOperation();
 
     @BeforeEach
     void setUp() {
@@ -17,21 +17,21 @@ public class SupplyOperationTest {
     }
 
     @Test
-    void handle_supplyOperation_addsQuantityExistingFruit_ok() {
+    void handle_returnOperation_addsQuantityExistingFruit_ok() {
         Storage.setQuantity("banana", 30);
         FruitTransaction transaction = new FruitTransaction();
         transaction.setFruit("banana");
         transaction.setQuantity(12);
-        supplyHandler.handle(transaction);
+        returnOperation.handle(transaction);
         assertEquals(42, Storage.getQuantity("banana"));
     }
 
     @Test
-    void handle_supplyOperation_addsQuantityNotExistingFruit_ok() {
+    void handle_returnOperation_addsQuantityNotExistingFruit_ok() {
         FruitTransaction transaction = new FruitTransaction();
         transaction.setFruit("banana");
         transaction.setQuantity(12);
-        supplyHandler.handle(transaction);
+        returnOperation.handle(transaction);
         assertEquals(12, Storage.getQuantity("banana"));
     }
 }
