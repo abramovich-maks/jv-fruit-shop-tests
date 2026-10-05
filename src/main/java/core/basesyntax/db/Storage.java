@@ -22,4 +22,8 @@ public class Storage {
     public static Map<String, Integer> getStorage() {
         return Collections.unmodifiableMap(storage);
     }
+
+    public static void clear() {
+        storage.clear();
+    }
 }
