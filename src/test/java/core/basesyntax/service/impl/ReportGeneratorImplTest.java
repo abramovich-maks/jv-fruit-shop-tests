@@ -1,32 +1,23 @@
 package core.basesyntax.service.impl;
 
 import core.basesyntax.db.Storage;
-import core.basesyntax.model.FruitTransaction;
 import core.basesyntax.service.ReportGenerator;
-import core.basesyntax.strategy.BalanceOperation;
-import core.basesyntax.strategy.OperationHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ReportGeneratorImplTest {
     private ReportGenerator reportGenerator;
-    private OperationHandler handler;
 
     @BeforeEach
     void setUp() {
         reportGenerator = new ReportGeneratorImpl();
-        handler = new BalanceOperation();
         Storage.clear();
     }
 
     @Test
     void getReport_validStorage_ok() {
-        FruitTransaction transaction = new FruitTransaction();
-        transaction.setFruit("banana");
-        transaction.setQuantity(10);
-        transaction.setOperation(FruitTransaction.Operation.BALANCE);
-        handler.handle(transaction);
+        Storage.setQuantity("banana", 10);
         String actualReport = reportGenerator.getReport();
 
         String expectedReport = "fruit,quantity" + System.lineSeparator()
