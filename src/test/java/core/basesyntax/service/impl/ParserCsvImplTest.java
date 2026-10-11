@@ -8,7 +8,7 @@ import core.basesyntax.service.DataParser;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class ParserCsvImplTest implements TestDataProvider {
+public class ParserCsvImplTest {
     private final DataParser dataParser = new DataParserCsvImpl();
 
     @Test
@@ -34,5 +34,33 @@ public class ParserCsvImplTest implements TestDataProvider {
     @Test
     void parse_invalidOperation_notOk() {
         assertThrows(IllegalArgumentException.class, () -> dataParser.parse(notValidOperation()));
+    }
+
+    private List<String> validInput() {
+        return List.of(
+                "type,fruit,quantity",
+                "b,banana,20"
+        );
+    }
+
+    private List<String> notValidFieldCount() {
+        return List.of(
+                "type,fruit,quantity",
+                "b,banana"
+        );
+    }
+
+    private List<String> notValidNegativeQuantity() {
+        return List.of(
+                "type,fruit,quantity",
+                "b,banana,-10"
+        );
+    }
+
+    private List<String> notValidOperation() {
+        return List.of(
+                "type,fruit,quantity",
+                "XXX,banana,100"
+        );
     }
 }
