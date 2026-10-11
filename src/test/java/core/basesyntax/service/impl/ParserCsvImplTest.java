@@ -2,6 +2,7 @@ package core.basesyntax.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.basesyntax.model.FruitTransaction;
 import core.basesyntax.service.DataParser;
@@ -34,6 +35,36 @@ public class ParserCsvImplTest {
     @Test
     void parse_invalidOperation_notOk() {
         assertThrows(IllegalArgumentException.class, () -> dataParser.parse(notValidOperation()));
+    }
+
+    @Test
+    void parse_emptyLines_ignored() {
+        List<FruitTransaction> result = dataParser.parse(emptyLinesInput());
+        FruitTransaction transaction = result.get(0);
+        assertEquals(1, result.size());
+        assertEquals("banana", transaction.getFruit());
+        assertEquals(20, transaction.getQuantity());
+        assertEquals(FruitTransaction.Operation.BALANCE, transaction.getOperation());
+    }
+
+    @Test
+    void parse_onlyHeader_returnsEmptyList() {
+        List<FruitTransaction> result = dataParser.parse(onlyHeaderInput());
+        assertTrue(result.isEmpty());
+    }
+
+    private List<String> onlyHeaderInput() {
+        return List.of(
+                "type,fruit,quantity"
+        );
+    }
+
+    private List<String> emptyLinesInput() {
+        return List.of(
+                "type,fruit,quantity",
+                "",
+                "b,banana,20"
+        );
     }
 
     private List<String> validInput() {
