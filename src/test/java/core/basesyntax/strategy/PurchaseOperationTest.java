@@ -37,4 +37,15 @@ public class PurchaseOperationTest {
         transaction.setOperation(FruitTransaction.Operation.PURCHASE);
         assertThrows(RuntimeException.class, () -> purchaseHandler.handle(transaction));
     }
+
+    @Test
+    void handle_purchaseAllAvailableFruit_setsZeroQuantity() {
+        Storage.setQuantity("banana", 30);
+        FruitTransaction transaction = new FruitTransaction();
+        transaction.setFruit("banana");
+        transaction.setQuantity(30);
+        transaction.setOperation(FruitTransaction.Operation.PURCHASE);
+        purchaseHandler.handle(transaction);
+        assertEquals(0, Storage.getQuantity("banana"));
+    }
 }
